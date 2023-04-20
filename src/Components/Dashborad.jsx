@@ -3,23 +3,20 @@ import { Link } from 'react-router-dom'
 import BlogBox from './BlogBox'
 
 const Dashborad = () => {
-    const [loadder, setLoadder] = useState(true);
+    // const [loadder, setLoadder] = useState(true);
     const [blogDatas, setBlogDatas] = useState([]);
 
     useEffect(() => {
-        setTimeout(() => {
-            setLoadder(false);
-            setBlogDatas([
-                { id: 1, title: "lorem okd iuhghh", describe: "loreremjhfhdfdfhfhjfh" },
-                { id: 2, title: "lorem okd iuhghh", describe: "loreremjhfhdfdfhfhjfh" },
-                { id: 3, title: "lorem okd iuhghh", describe: "loreremjhfhdfdfhfhjfh" },
-                { id: 4, title: "lorem okd iuhghh", describe: "loreremjhfhdfdfhfhjfh" },
-                { id: 5, title: "lorem okd iuhghh", describe: "loreremjhfhdfdfhfhjfh" },
-                { id: 6, title: "lorem okd iuhghh", describe: "loreremjhfhdfdfhfhjfh" },
-                { id: 7, title: "lorem okd iuhghh", describe: "loreremjhfhdfdfhfhjfh" },
-            ])
-        }, 5000);
-
+        const fetchApi = async () => {
+            fetch(`https://jsonplaceholder.typicode.com/photos`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            }).then((res) => res.json())
+                .then((data) => {
+                    setBlogDatas(data)
+                }).catch((error) => console.log('error::: ', error))
+        }
+        fetchApi();
     }, [])
 
     return (
@@ -40,22 +37,15 @@ const Dashborad = () => {
                         </div>
                     </div>
                 </div>
-                {
-                    loadder ?
-                        <div className="loader"></div>
-                        :
-                        <div style={ { display: "flex", flexWrap: "wrap", justifyContent: "space-between" } }>
-                            {
-                                blogDatas.map((data, index) => (
-                                    <div key={ index }>
-                                        <BlogBox
-                                            all={ data }
-                                        />
-                                    </div>
-                                ))
-                            }
-                        </div>
-                }
+                <div style={ { display: "flex", flexWrap: "wrap" } }>
+                    {
+                        blogDatas.slice(0, 20).map((data, index) => (
+                            <div style={ { margin: "10px 0" } } key={ index }>
+                                <BlogBox data={ data } />
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
         </>
     )
