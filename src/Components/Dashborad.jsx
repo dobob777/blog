@@ -13,7 +13,6 @@ const Dashborad = () => {
                 headers: { "Content-Type": "application/json" }
             }).then((res) => res.json())
                 .then((data) => {
-                    setBlogDatas(data)
                 }).catch((error) => console.log('error::: ', error))
         }
         fetchApi();
@@ -37,7 +36,7 @@ const Dashborad = () => {
                         </div>
                     </div>
                 </div>
-                <div style={ { display: "flex", flexWrap: "wrap" } }>
+                <div style={ { display: "flex", flexWrap: "wrap", justifyContent: "space-evenly" } }>
                     {
                         blogDatas.slice(0, 20).map((data, index) => (
                             <div style={ { margin: "10px 0" } } key={ index }>
