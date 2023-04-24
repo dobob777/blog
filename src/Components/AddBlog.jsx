@@ -15,16 +15,18 @@ const AddBlog = () => {
         setData({ ...data, [e.target.name]: e.target.value })
     }
     const saveData = () => {
-        const allData = { data, file };
-        fetch('http://localhost:1030/api/createBlog', {
+
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('data', JSON.stringify(data));
+
+        fetch("http://localhost:1030/api/createBlog", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: allData
-        }).then((res) => res.json)
-            .then((data) => {
-                console.log('data::: ', data);
-            }).catch((error) => console.log('error::: ', error))
+            body: formData
+        }).then((res) => res.json())
+            .then((data) => console.log('data::: ', data))
     }
+
     return (
         <>
             <div className="container col-xxl-8 px-4 py-5">
